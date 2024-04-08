@@ -7,16 +7,21 @@ const { typeDefs, resolvers } = require("./schemas");
 const db = require("./config/connection");
 const PORT = process.env.PORT || 3001;
 const app = express();
-const server = new ApolloServer({
+const apolloServer = new ApolloServer({
   typeDefs,
-  resolvers,
+  resolvers
 });
 
 const startApolloServer = async () => {
-  await server.start();
+  await apolloServer.start();
 
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
+
+  // apply ApolloServer to Express as middleware
+  app.use("/graphql", expressMiddleware(apolloServer, {
+    context: authMiddleware,
+  }));
 
   // if we're in production, serve client/build as static assets
   if (process.env.NODE_ENV === "production") {
@@ -28,12 +33,6 @@ const startApolloServer = async () => {
     });
   }
 
-    // apply ApolloServer to Express as middleware
-    app.use("/graphql", expressMiddleware(server, {
-        context: authMiddleware,
-      })
-    );
-
     // if we're in development, run the ApolloServer on the same port as the client
   db.once("open", () => {
     app.listen(PORT, () => {
@@ -41,6 +40,6 @@ const startApolloServer = async () => {
       console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
     });
   });
-}  
+}; 
 
 startApolloServer();

@@ -8,21 +8,22 @@ import { GET_ME } from "../utils/queries";
 import { REMOVE_BOOK } from "../utils/mutations";
 
 const SavedBooks = () => {
-  const [loading, data] = useQuery(GET_ME, { fetchPolicy: "network-only" });
+  const { loading, data } = useQuery(GET_ME);
 
-  // use this to determine if `useEffect()` hook needs to run again
+  // create function that makes a delete request to remove the book from the logged-in user's list
   const [removeBook] = useMutation(REMOVE_BOOK);
 
+  // 
   const userData = data?.me || {};
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
-
+    //  if there's no token, return false
     if (!token) {
       return false;
     }
-
+    //  try-catch block that calls the removeBook mutation and then removes the book's id from localStorage
     try {
       const { data } = await removeBook({
         variables: { bookId },
@@ -43,7 +44,7 @@ const SavedBooks = () => {
   if (loading) {
     return <h2>LOADING...</h2>;
   }
-
+  
   return (
     <>
       <div fluid className="text-light bg-dark p-5">
