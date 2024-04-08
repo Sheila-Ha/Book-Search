@@ -26,7 +26,7 @@ const SavedBooks = () => {
     //  try-catch block that calls the removeBook mutation and then removes the book's id from localStorage
     try {
       const { data } = await removeBook({
-        variables: { bookId },
+        variables: { userId: Auth.getUser().data._id, bookId },
       });
 
       if (!data || !data.removeBook) {
@@ -35,6 +35,8 @@ const SavedBooks = () => {
 
       // upon success, remove book's id from localStorage
       removeBookId(bookId);
+      // refresh the page to get latest data
+      window.location.reload();
     } catch (err) {
       console.error(err);
     }

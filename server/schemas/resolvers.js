@@ -7,7 +7,7 @@ const resolvers = {
     me: async (parent, args, context) => {
       // if user is provided as an argument, use that id, otherwise use the one from the auth middleware's user
       if (context.user) {
-        return User.findOne({ _id: context.user._id }).populate("saveBooks");
+        return User.findOne({ _id: context.user._id }).populate("savedBooks");
       }
       throw new AuthenticationError("You need to be logged in!");
     },
@@ -46,7 +46,7 @@ const resolvers = {
       // if (context.user) {
       //   return User.findOneAndUpdate(
       //     { _id: context.user.id },
-      //     { $addToSet: { saveBooks: input } },
+      //     { $addToSet: { savedBooks: input } },
       //     { new: true, runValidators: true }
       //   );
       // }
@@ -64,8 +64,7 @@ const resolvers = {
       if (context.user) {
         return User.findOneAndUpdate(
           { _id: userId },
-          { $pull: { savedBooks: { bookId } } },
-          { new: true }
+          { $pull: { savedBooks: { bookId } } }
         );
       }
       throw new AuthenticationError("You need to be logged in!");
