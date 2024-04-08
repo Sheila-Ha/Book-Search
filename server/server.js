@@ -9,7 +9,8 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 const apolloServer = new ApolloServer({
   typeDefs,
-  resolvers
+  resolvers,
+  introspection: true
 });
 
 const startApolloServer = async () => {
@@ -20,7 +21,7 @@ const startApolloServer = async () => {
 
   // apply ApolloServer to Express as middleware
   app.use("/graphql", expressMiddleware(apolloServer, {
-    context: authMiddleware,
+    context: authMiddleware
   }));
 
   // if we're in production, serve client/build as static assets
