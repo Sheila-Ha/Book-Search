@@ -77,7 +77,7 @@ const SearchBooks = () => {
 
     try {
       const { data } = await saveBook({
-        variables: {input: { ...bookToSave }},
+        variables: { userId: Auth.getUser().data._id, bookData: { ...bookToSave } },
       });
       //const response = await saveBook(bookToSave, token);
       if (!data || !data.saveBook) {

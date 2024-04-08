@@ -51,9 +51,9 @@ const resolvers = {
       //   );
       // }
       // throw AuthenticationError;
-      const user = await User.findOneAndUpdate(
+      const user = await User.findByIdAndUpdate(
         userId,
-        { $push: { saveBooks: bookData } },
+        { $push: { savedBooks: bookData } },
         { new: true }
       );
       return user;
@@ -64,7 +64,7 @@ const resolvers = {
       if (context.user) {
         return User.findOneAndUpdate(
           { _id: userId },
-          { $pull: { saveBooks: { bookId } } },
+          { $pull: { savedBooks: { bookId } } },
           { new: true }
         );
       }
