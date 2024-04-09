@@ -80,6 +80,8 @@ by Sheila Hanson  ![Github license](https://img.shields.io/badge/license-MIT-blu
 - Vite  
 - 
 ## Challenges  
+- Learning Apollo Graphql
+- Deploying, having a db connection issue and working through it
 - 
 
 
