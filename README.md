@@ -112,7 +112,7 @@ If you have any questions, or additional feedback, please feel free to email me 
 [Project 3](https://github.com/Sheila-Ha/Book-Search)  
 
 * Email -  
-slhanson11@live.com 
+
 
 
 ## License 
